@@ -1,0 +1,440 @@
+### 🟣 Api 문서 소개
+
+- 회원가입 후 키 받아오기
+    
+    [Authentication](https://developer.themoviedb.org/reference/intro/authentication)
+    
+    ![image.png](https://prod-files-secure.s3.us-west-2.amazonaws.com/681aabec-185e-44d0-b64b-3d352bfbfae8/e6a30158-413f-41d2-bede-5258c232c2ce/image.png)
+    
+    81a92362658e35f04c2b390845ea5f68
+    
+    eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI4MWE5MjM2MjY1OGUzNWYwNGMyYjM5MDg0NWVhNWY2OCIsIm5iZiI6MTcyNTA3MTU0NS4xOTIyOCwic3ViIjoiNjUyMDM2NDA1YjEyNDAwMGM2MDYwOTM1Iiwic2NvcGVzIjpbImFwaV9yZWFkIl0sInZlcnNpb24iOjF9.A7nTAkNhzbjvPM9_4-ZiAMlE798d25fV2p-Rn4-NlWg
+    
+- 키 앞에 Bearer : OAuth토큰을 이용하는 경우 많이 쓰는 패턴
+    
+    ![image.png](https://prod-files-secure.s3.us-west-2.amazonaws.com/681aabec-185e-44d0-b64b-3d352bfbfae8/8f191155-dfb7-413e-84bb-1979e8dceee9/image.png)
+    
+- 메인페이지 :
+    
+    ![image.png](https://prod-files-secure.s3.us-west-2.amazonaws.com/681aabec-185e-44d0-b64b-3d352bfbfae8/6ff1b1b8-ff64-4779-bd88-38fc6a0595f9/image.png)
+    
+
+### 🟣 Route 구성하기 : nested route와 Outle
+
+- 필요한 것 설치
+    1. 돔 시리즈 : react-dom, react-router-dom
+        
+        ```jsx
+        npm i react-dom react-router-dom
+        ```
+        
+    2. 부트스트랩 : react-bootstrap, bootstrap
+        
+        ```jsx
+        npm i react-bootstrap bootstrap
+        ```
+        
+        - 설치 후 스타일 css 임포트
+            
+            ![image.png](https://prod-files-secure.s3.us-west-2.amazonaws.com/681aabec-185e-44d0-b64b-3d352bfbfae8/a79afeff-beb9-43b6-a680-8f7bdb458783/image.png)
+            
+    3. Api 호출에 필요한 axios : axios
+        
+        ```jsx
+        npm i axios
+        ```
+        
+    4. 리액트 쿼리 : react-query, react-query-devtools
+        
+        [Quick Start | TanStack Query React Docs](https://tanstack.com/query/latest/docs/framework/react/quick-start)
+        
+        [Installation | TanStack Query React Docs](https://tanstack.com/query/latest/docs/framework/react/installation)
+        
+        ```jsx
+        npm i @tanstack/react-query @tanstack/react-query-devtools
+        ```
+        
+- 라우터 세팅
+    1. index.js
+        
+        ![image.png](https://prod-files-secure.s3.us-west-2.amazonaws.com/681aabec-185e-44d0-b64b-3d352bfbfae8/1f4fcc60-5802-467b-8104-7d4b362f1093/image.png)
+        
+    2. App.js
+        
+        📛 기존처럼 routes 위에 navbar를 넣으면 화면에 맞는 네비로 바꿀 수 없다!!
+        
+        - 실제 회사에서는 레이아웃이 많기 때문에 레이아웃 폴더를 만들어 제작
+            
+            ![image.png](https://prod-files-secure.s3.us-west-2.amazonaws.com/681aabec-185e-44d0-b64b-3d352bfbfae8/0248606d-ff76-4eda-9d8a-f404b2d69faa/image.png)
+            
+        - App.js 수정
+            
+            ![image.png](https://prod-files-secure.s3.us-west-2.amazonaws.com/681aabec-185e-44d0-b64b-3d352bfbfae8/788b61b9-947a-4732-aaba-1a4b5a3b9a36/image.png)
+            
+        - 다르게 구성하는 방법
+            
+            ![image.png](https://prod-files-secure.s3.us-west-2.amazonaws.com/681aabec-185e-44d0-b64b-3d352bfbfae8/9360235d-371b-46ca-964a-5c35ffc98a95/image.png)
+            
+    3. 필요한 페이지 제작
+        
+        폴더를 만드는 이유 : 페이지별로 스타일을 따로 관리할 예정!
+        
+        ![image.png](https://prod-files-secure.s3.us-west-2.amazonaws.com/681aabec-185e-44d0-b64b-3d352bfbfae8/fa8ae715-f60b-40bc-afd0-92a37adda2ed/image.png)
+        
+    4. 페이지별 주소값 생각해보기!
+        
+        index? ⇒ 같은 path를 쓰는 경우 index로 쓸 수 있다! **index = path=”/”**
+        
+        - 페이지가 많이 없는 경우에는 아래처럼 사용
+            
+            ![image.png](https://prod-files-secure.s3.us-west-2.amazonaws.com/681aabec-185e-44d0-b64b-3d352bfbfae8/f368cee8-5a61-4927-b445-a1331037a6be/image.png)
+            
+        - **nested route** 하지만 회사 플젝의 경우, 페이지가 많기 때문에 **sub route** 사용
+            
+            ![image.png](https://prod-files-secure.s3.us-west-2.amazonaws.com/681aabec-185e-44d0-b64b-3d352bfbfae8/c13bdeec-8e54-4c24-9505-09f780df8067/image.png)
+            
+    5. Not Found Page : 없는 페이지 만들기
+        - App.js
+            
+            ![image.png](https://prod-files-secure.s3.us-west-2.amazonaws.com/681aabec-185e-44d0-b64b-3d352bfbfae8/8c812269-379b-4616-b180-51f86e54fc69/image.png)
+            
+        - 폴더 만들기
+            
+            ![image.png](https://prod-files-secure.s3.us-west-2.amazonaws.com/681aabec-185e-44d0-b64b-3d352bfbfae8/c67d1621-4143-41de-9122-07773d275925/image.png)
+            
+    
+
+### 🟣 AppLayout 만들기 : Navbar
+
+- AppLayout에 네비게이션을 만들어보자!
+- react bootstrap
+    
+    ![image.png](https://prod-files-secure.s3.us-west-2.amazonaws.com/681aabec-185e-44d0-b64b-3d352bfbfae8/d3acc6a0-bbca-4ddb-9fdf-586dc86a775b/image.png)
+    
+- AppLayout의 자손들 노출
+    
+    outlet : applayout 자손들을 가져올 수 있도록 도와주는 컴포넌트
+    
+    ![image.png](https://prod-files-secure.s3.us-west-2.amazonaws.com/681aabec-185e-44d0-b64b-3d352bfbfae8/efc9d5f9-4a8f-4486-ad6e-a6d0740f1b85/image.png)
+    
+
+### 🟣 axios 세팅
+
+- axios 기본값 세팅
+    
+    [Axios 인스턴스 | Axios Docs](https://axios-http.com/kr/docs/instance)
+    
+    1. utils 폴더 제작 : 도구 같은 것들(숫자를 세어주는 함수…)을 넣어놓기 좋은 폴더
+        
+        ![image.png](https://prod-files-secure.s3.us-west-2.amazonaws.com/681aabec-185e-44d0-b64b-3d352bfbfae8/34fd2018-009c-4a34-9225-45fc22d1aceb/image.png)
+        
+    2. 환경변수에 숨긴 api 키 설정
+        
+        ![image.png](https://prod-files-secure.s3.us-west-2.amazonaws.com/681aabec-185e-44d0-b64b-3d352bfbfae8/2917dc00-2f8c-4249-8e0c-a945c2bb778d/image.png)
+        
+        ![image.png](https://prod-files-secure.s3.us-west-2.amazonaws.com/681aabec-185e-44d0-b64b-3d352bfbfae8/1994456a-581a-4351-94d5-252398ab98f3/image.png)
+        
+        ![image.png](https://prod-files-secure.s3.us-west-2.amazonaws.com/681aabec-185e-44d0-b64b-3d352bfbfae8/c2c20169-1f06-461b-93c6-d011903ebb48/image.png)
+        
+- axios 인터셉터 세팅 : 오류가 나면 중간에 가로채서 알 수 있는 기능, 디버깅 시 유용!
+    
+    [인터셉터 | Axios Docs](https://axios-http.com/kr/docs/interceptors)
+    
+    1. 홈페이지 복붙
+        
+        ![image.png](https://prod-files-secure.s3.us-west-2.amazonaws.com/681aabec-185e-44d0-b64b-3d352bfbfae8/4ac1946e-3680-48af-b64b-cc35405a4574/image.png)
+        
+
+### 🟣 Banner 만들기 : hook hook hook…!
+
+- 해야 할 일
+    
+    ![image.png](https://prod-files-secure.s3.us-west-2.amazonaws.com/681aabec-185e-44d0-b64b-3d352bfbfae8/70d555b4-662e-41c9-9c95-69906cda3c29/image.png)
+    
+- popular move api 호출
+    1. 배너 컴포넌트 제작
+        - 홈페이지 안에서만 쓰이는 컴포넌트를 만드는 폴더 생성
+            
+            ![image.png](https://prod-files-secure.s3.us-west-2.amazonaws.com/681aabec-185e-44d0-b64b-3d352bfbfae8/089dcc5f-825d-4822-9357-6760a35b8787/image.png)
+            
+            ![image.png](https://prod-files-secure.s3.us-west-2.amazonaws.com/681aabec-185e-44d0-b64b-3d352bfbfae8/fa81954f-50d8-4ba9-887f-c7aa4727e928/image.png)
+            
+    2. api 호출을 위한 hook 제작
+        - hooks 폴더 안에 popluarmovie 파일 생성
+            
+            ![image.png](https://prod-files-secure.s3.us-west-2.amazonaws.com/681aabec-185e-44d0-b64b-3d352bfbfae8/28a36652-8b9a-4827-bf24-85f4671b85e6/image.png)
+            
+        - popluarmovie api 호출
+            - 리액트 쿼리 세팅
+                
+                ![image.png](https://prod-files-secure.s3.us-west-2.amazonaws.com/681aabec-185e-44d0-b64b-3d352bfbfae8/638c6fe3-4d60-4bfc-a120-5a4737e265de/image.png)
+                
+            - 💁‍♀️ 우리가 hook을 만드는 이유는 뭘까?
+                
+                나중에 다른 곳에서 해당 훅을 그대로 가져다 쓸 수 있기 때문! & 컴포넌트를 비즈니스 로직과 ui를 분리해주는 것이 좋다! (테스트하기도 좋음)
+                
+                ![image.png](https://prod-files-secure.s3.us-west-2.amazonaws.com/681aabec-185e-44d0-b64b-3d352bfbfae8/51896a4a-9ce6-4e17-97d0-6d739b178611/image.png)
+                
+    3. banner에 data 불러오기
+        - banner에 data 넣어주기
+            
+            ![image.png](https://prod-files-secure.s3.us-west-2.amazonaws.com/681aabec-185e-44d0-b64b-3d352bfbfae8/0c55718b-eb65-4b69-9eff-6c1ad5832c3f/image.png)
+            
+            ![image.png](https://prod-files-secure.s3.us-west-2.amazonaws.com/681aabec-185e-44d0-b64b-3d352bfbfae8/8503f2c9-fe60-46dd-9797-b1165f469233/image.png)
+            
+        - 원하는 data만 불러오기
+            
+            ![image.png](https://prod-files-secure.s3.us-west-2.amazonaws.com/681aabec-185e-44d0-b64b-3d352bfbfae8/1b72308b-88ab-437a-ba9d-ef8f0a0b181b/image.png)
+            
+            ![image.png](https://prod-files-secure.s3.us-west-2.amazonaws.com/681aabec-185e-44d0-b64b-3d352bfbfae8/b7d3c972-e920-46c0-8ba5-77ab2b1fd2d9/image.png)
+            
+
+### 🟣 배너 디자인
+
+- 로딩, 에러 처리
+    
+    ![image.png](https://prod-files-secure.s3.us-west-2.amazonaws.com/681aabec-185e-44d0-b64b-3d352bfbfae8/53ceb1c0-1777-4888-a14f-4adbf51cec71/image.png)
+    
+    - bootstrap으로 알럿 넣기
+        
+        [Alerts | React Bootstrap](https://react-bootstrap.netlify.app/docs/components/alerts)
+        
+        ![image.png](https://prod-files-secure.s3.us-west-2.amazonaws.com/681aabec-185e-44d0-b64b-3d352bfbfae8/3641af7f-ff9c-4356-bfdc-ed282107949f/image.png)
+        
+- 배너 background 인스타일
+    - background 이미지 설정
+        
+        ![image.png](https://prod-files-secure.s3.us-west-2.amazonaws.com/681aabec-185e-44d0-b64b-3d352bfbfae8/ba983bb2-c5ea-47f3-8949-ffbd3d93380d/image.png)
+        
+        ![image.png](https://prod-files-secure.s3.us-west-2.amazonaws.com/681aabec-185e-44d0-b64b-3d352bfbfae8/aa6af973-588b-4d1d-afd6-6eec00b6ea1c/image.png)
+        
+    - background 이미지 전체 주소 확인 방법
+        
+        ![image.png](https://prod-files-secure.s3.us-west-2.amazonaws.com/681aabec-185e-44d0-b64b-3d352bfbfae8/26469461-901f-4cec-ae2f-0e2dd1692c60/image.png)
+        
+        ![image.png](https://prod-files-secure.s3.us-west-2.amazonaws.com/681aabec-185e-44d0-b64b-3d352bfbfae8/e2aa8970-c8b0-4518-9051-ec4b228e5464/image.png)
+        
+        ![image.png](https://prod-files-secure.s3.us-west-2.amazonaws.com/681aabec-185e-44d0-b64b-3d352bfbfae8/3982f86a-cd1e-4860-bc3b-af1276462a86/image.png)
+        
+    - background style
+        
+        ![image.png](https://prod-files-secure.s3.us-west-2.amazonaws.com/681aabec-185e-44d0-b64b-3d352bfbfae8/6c517cbe-c4e0-4b2b-a40f-d84756b2e283/image.png)
+        
+        ![image.png](https://prod-files-secure.s3.us-west-2.amazonaws.com/681aabec-185e-44d0-b64b-3d352bfbfae8/30f0417f-e576-4991-a0ec-e3145f2edbd1/image.png)
+        
+- 배너 영화 관련 텍스트 삽입
+    - 텍스트 삽입 부분 제작
+        
+        ?를 넣는 이유 : 없으면 에러가 뜨고 데이터가 있으면 가져와~라는 뜻!
+        
+        ![image.png](https://prod-files-secure.s3.us-west-2.amazonaws.com/681aabec-185e-44d0-b64b-3d352bfbfae8/469485d9-fefe-4c5b-b2fe-311d7ef3ee09/image.png)
+        
+        위 아래 모두 같은 뜻!
+        
+        ![image.png](https://prod-files-secure.s3.us-west-2.amazonaws.com/681aabec-185e-44d0-b64b-3d352bfbfae8/8eb25130-68ad-4733-b659-de170f7710c7/image.png)
+        
+    - 텍스트 삽입 부분 style
+        
+        text-white : 부트스트랩 기본 클래스
+        
+        ![image.png](https://prod-files-secure.s3.us-west-2.amazonaws.com/681aabec-185e-44d0-b64b-3d352bfbfae8/bd60e786-4518-4ed7-92c1-9d238b75ff05/image.png)
+        
+        ![image.png](https://prod-files-secure.s3.us-west-2.amazonaws.com/681aabec-185e-44d0-b64b-3d352bfbfae8/1e9ee678-c3c1-472b-8689-ad2d4f1e78d8/image.png)
+        
+
+### 🟣 영화 슬라이드 만들기
+
+[npm: react-multi-carousel](https://www.npmjs.com/package/react-multi-carousel)
+
+- 컴포넌트 설치
+    
+    ```jsx
+    npm i react-multi-carousel
+    ```
+    
+- 슬라이드 컴포넌트 세팅
+    
+    ![image.png](https://prod-files-secure.s3.us-west-2.amazonaws.com/681aabec-185e-44d0-b64b-3d352bfbfae8/c352c7e2-d637-4fb2-a93b-9397ea798e61/image.png)
+    
+    ![image.png](https://prod-files-secure.s3.us-west-2.amazonaws.com/681aabec-185e-44d0-b64b-3d352bfbfae8/f4cfcfbd-4129-487d-abc6-ce772b2324c5/image.png)
+    
+    ![image.png](https://prod-files-secure.s3.us-west-2.amazonaws.com/681aabec-185e-44d0-b64b-3d352bfbfae8/c8ad2db9-ba6d-48e3-a5a4-3563a09609f1/image.png)
+    
+- 슬라이드에 들어가는 카드 컴포넌트 세팅
+    
+    ![image.png](https://prod-files-secure.s3.us-west-2.amazonaws.com/681aabec-185e-44d0-b64b-3d352bfbfae8/44d47b8c-46b1-4e73-8f89-b011b94f73ba/image.png)
+    
+    ![image.png](https://prod-files-secure.s3.us-west-2.amazonaws.com/681aabec-185e-44d0-b64b-3d352bfbfae8/397f301e-aefa-43a2-b37c-a05aa0373b31/image.png)
+    
+
+### 🟣 영화 카드 만들기
+
+![image.png](https://prod-files-secure.s3.us-west-2.amazonaws.com/681aabec-185e-44d0-b64b-3d352bfbfae8/f35991bb-20fb-4742-9864-c987df8b723c/image.png)
+
+- 스타일
+    
+    ![image.png](https://prod-files-secure.s3.us-west-2.amazonaws.com/681aabec-185e-44d0-b64b-3d352bfbfae8/4ca88048-15fc-4fb8-806b-bec3509958c1/image.png)
+    
+    ![image.png](https://prod-files-secure.s3.us-west-2.amazonaws.com/681aabec-185e-44d0-b64b-3d352bfbfae8/5ca72380-baa0-4281-87a0-5dc65b8e0e0a/image.png)
+    
+    ![image.png](https://prod-files-secure.s3.us-west-2.amazonaws.com/681aabec-185e-44d0-b64b-3d352bfbfae8/c84dd85f-a65f-4d09-80d4-c9d6dabd855f/image.png)
+    
+    ![image.png](https://prod-files-secure.s3.us-west-2.amazonaws.com/681aabec-185e-44d0-b64b-3d352bfbfae8/c534e799-7fd3-4318-9ff5-4f380c1b14a1/image.png)
+    
+    ![image.png](https://prod-files-secure.s3.us-west-2.amazonaws.com/681aabec-185e-44d0-b64b-3d352bfbfae8/3246ce83-501b-4292-9f1f-b3fd21066e5c/image.png)
+    
+
+### 🟣 코드 구조 리팩토링 : 실제 회사에선 어떻게 구성을 할까?
+
+- 다른곳에서도 쓰일 수 있는 컴포넌트
+    - MovieCard와 MovieSlide가 홈페이지에만 속하지 않을 수 있다. ⇒ **common 컴포넌트로 따로 분리**
+- MovieCard와 MovieSlide를 common으로 분리하기!
+    - MovieCard
+        - 통으로 common 폴더에 옮기기
+            
+            ![image.png](https://prod-files-secure.s3.us-west-2.amazonaws.com/681aabec-185e-44d0-b64b-3d352bfbfae8/123b5dca-5d9c-4194-affb-bf5714935755/image.png)
+            
+    - MovieSlide
+        - 로직이 있기 때문에 통으로 옮길 수 없다.
+        - 폴더 만들기
+            
+            ![image.png](https://prod-files-secure.s3.us-west-2.amazonaws.com/681aabec-185e-44d0-b64b-3d352bfbfae8/06a4978a-2981-40f8-a64f-0ae0457a941a/image.png)
+            
+        - UI부분만 따로 분리
+            
+            ![image.png](https://prod-files-secure.s3.us-west-2.amazonaws.com/681aabec-185e-44d0-b64b-3d352bfbfae8/d9dffc07-b9ed-43ed-8f04-bb78b438d26c/image.png)
+            
+            ![image.png](https://prod-files-secure.s3.us-west-2.amazonaws.com/681aabec-185e-44d0-b64b-3d352bfbfae8/c7159d0f-44e9-4cb8-90af-6fd69c222ec2/image.png)
+            
+        - 원래 파일 수정
+            
+            ![image.png](https://prod-files-secure.s3.us-west-2.amazonaws.com/681aabec-185e-44d0-b64b-3d352bfbfae8/e84dff93-ca40-432e-b267-ead0424e441e/image.png)
+            
+        - response 수정 : constants(딱 고정되어있는 값들을 넣어주는곳)
+            
+            ![image.png](https://prod-files-secure.s3.us-west-2.amazonaws.com/681aabec-185e-44d0-b64b-3d352bfbfae8/2f644a0b-b55e-4b45-95b6-40b8f97c527b/image.png)
+            
+            ![image.png](https://prod-files-secure.s3.us-west-2.amazonaws.com/681aabec-185e-44d0-b64b-3d352bfbfae8/e1bba4fb-8fad-4c27-b423-bdcdc143ba25/image.png)
+            
+        - import, style 수정하기
+
+### 🟣 장르 가져오기
+
+[Movie List](https://developer.themoviedb.org/reference/genre-movie-list)
+
+- id로 받아온 장르는 api를 추가해줘야 한다!
+    - mapping으로 id에 맞는 이름을 가져온다.
+        
+        ![image.png](https://prod-files-secure.s3.us-west-2.amazonaws.com/681aabec-185e-44d0-b64b-3d352bfbfae8/31faf622-d92c-4b8e-9740-2614cdec2aa4/image.png)
+        
+- api 불러오는 훅 만들기
+    
+    ![image.png](https://prod-files-secure.s3.us-west-2.amazonaws.com/681aabec-185e-44d0-b64b-3d352bfbfae8/97b51101-0877-4dbb-91e2-340c7e3b0227/image.png)
+    
+    - 장르 데이터만 뽑아오겠다!
+        
+        ![image.png](https://prod-files-secure.s3.us-west-2.amazonaws.com/681aabec-185e-44d0-b64b-3d352bfbfae8/6c578ea5-d5c4-4a2c-bfaf-db1163c01715/image.png)
+        
+        ![image.png](https://prod-files-secure.s3.us-west-2.amazonaws.com/681aabec-185e-44d0-b64b-3d352bfbfae8/afde902f-d2a7-465b-b656-ae8d1422f757/image.png)
+        
+- MovieCard에서 장르 노출
+    - genreData로 이름 재정의
+        
+        ![image.png](https://prod-files-secure.s3.us-west-2.amazonaws.com/681aabec-185e-44d0-b64b-3d352bfbfae8/4060a063-fe2e-4172-aaff-7cbb41e78a48/image.png)
+        
+        ![image.png](https://prod-files-secure.s3.us-west-2.amazonaws.com/681aabec-185e-44d0-b64b-3d352bfbfae8/e53f1311-3c8b-4af7-956b-17a746622e7e/image.png)
+        
+        모든 카드의 장르가 콘솔에 찍히지만 리액트 쿼리가 데이터는 한번만 가져온다
+        
+        ![image.png](https://prod-files-secure.s3.us-west-2.amazonaws.com/681aabec-185e-44d0-b64b-3d352bfbfae8/1ab5a8f0-771e-40f5-b4a9-bd3a001ab84a/image.png)
+        
+        자주 호출할 필요가 없기 때문에 staleTime을 설정한다. (다른 페이지에서 해당 페이지로 유입되더라도 list가 계속해서 불러와지지 않음)
+        
+        ![image.png](https://prod-files-secure.s3.us-west-2.amazonaws.com/681aabec-185e-44d0-b64b-3d352bfbfae8/c606cd4d-2319-4458-8ea5-efe507204a42/image.png)
+        
+
+### 🟣 장르 보여주기
+
+![image.png](https://prod-files-secure.s3.us-west-2.amazonaws.com/681aabec-185e-44d0-b64b-3d352bfbfae8/59eab8a0-6b12-44bf-b473-52e2d6e1bcd8/image.png)
+
+![image.png](https://prod-files-secure.s3.us-west-2.amazonaws.com/681aabec-185e-44d0-b64b-3d352bfbfae8/170140ac-0b64-4752-a305-78c0ca8722c7/image.png)
+
+### 🟣 키워드로 영화찾기
+
+- movie 페이지로 넘어갈 수 있는 경로
+    
+    ![image.png](https://prod-files-secure.s3.us-west-2.amazonaws.com/681aabec-185e-44d0-b64b-3d352bfbfae8/095977cb-80d8-42c0-b0d3-71e796f76bb1/image.png)
+    
+1. nav바에서 클릭 ⇒ popular movie  노출 : (이미 movie페이지 이동으로 적용)
+2. keyword로 검색 ⇒ keyword와 관련된 영화를 보여줌
+    
+    ![image.png](https://prod-files-secure.s3.us-west-2.amazonaws.com/681aabec-185e-44d0-b64b-3d352bfbfae8/a54b27aa-8eeb-49d4-af94-c593177943a4/image.png)
+    
+    ![image.png](https://prod-files-secure.s3.us-west-2.amazonaws.com/681aabec-185e-44d0-b64b-3d352bfbfae8/c54dcf79-7973-4e90-868b-eee40d2a5d71/image.png)
+    
+    ![image.png](https://prod-files-secure.s3.us-west-2.amazonaws.com/681aabec-185e-44d0-b64b-3d352bfbfae8/7078a468-50ee-486f-ac22-5e958b5046df/image.png)
+    
+- movie 페이지에 데이터 넘기기
+    - 훅 만들기
+        
+        ![image.png](https://prod-files-secure.s3.us-west-2.amazonaws.com/681aabec-185e-44d0-b64b-3d352bfbfae8/e2a7eb0b-0d9c-4172-9b42-68554e196a8f/image.png)
+        
+        ![image.png](https://prod-files-secure.s3.us-west-2.amazonaws.com/681aabec-185e-44d0-b64b-3d352bfbfae8/1c494ea9-9310-4655-82d2-29d368a4317b/image.png)
+        
+        ![image.png](https://prod-files-secure.s3.us-west-2.amazonaws.com/681aabec-185e-44d0-b64b-3d352bfbfae8/37561bb4-ae37-4781-ae55-0bd667f54200/image.png)
+        
+        - 영화 리스트 노출
+            
+            ![image.png](https://prod-files-secure.s3.us-west-2.amazonaws.com/681aabec-185e-44d0-b64b-3d352bfbfae8/999bfd21-f56c-477f-ab03-aff59888a79d/image.png)
+            
+    - keyword로 검색 ⇒ keyword와 관련된 영화를 보여줌
+        
+        ![image.png](https://prod-files-secure.s3.us-west-2.amazonaws.com/681aabec-185e-44d0-b64b-3d352bfbfae8/a54b27aa-8eeb-49d4-af94-c593177943a4/image.png)
+        
+        ![image.png](https://prod-files-secure.s3.us-west-2.amazonaws.com/681aabec-185e-44d0-b64b-3d352bfbfae8/c54dcf79-7973-4e90-868b-eee40d2a5d71/image.png)
+        
+        ![image.png](https://prod-files-secure.s3.us-west-2.amazonaws.com/681aabec-185e-44d0-b64b-3d352bfbfae8/7078a468-50ee-486f-ac22-5e958b5046df/image.png)
+        
+
+### 🟣 페이지네이션
+
+[npm: react-paginate](https://www.npmjs.com/package/react-paginate)
+
+![image.png](https://prod-files-secure.s3.us-west-2.amazonaws.com/681aabec-185e-44d0-b64b-3d352bfbfae8/114949be-99b5-4065-8ef7-0bb1c9675cd3/image.png)
+
+- 페이지네이션 설치 및 세팅
+    
+    ```jsx
+    npm install react-paginate
+    ```
+    
+    ![image.png](https://prod-files-secure.s3.us-west-2.amazonaws.com/681aabec-185e-44d0-b64b-3d352bfbfae8/9bdf69bd-4d21-4c6d-8fe6-e41c7bdb09cb/image.png)
+    
+    ![image.png](https://prod-files-secure.s3.us-west-2.amazonaws.com/681aabec-185e-44d0-b64b-3d352bfbfae8/02a00910-6482-4400-a428-01b8b645d12e/image.png)
+    
+- page state 만들기
+    
+    ![image.png](https://prod-files-secure.s3.us-west-2.amazonaws.com/681aabec-185e-44d0-b64b-3d352bfbfae8/a0d2b84d-2e11-4344-9aaa-220c26fdee65/image.png)
+    
+    [React Paginate Usage](https://codepen.io/monsieurv/pen/abyJQWQ)
+    
+    ![image.png](https://prod-files-secure.s3.us-west-2.amazonaws.com/681aabec-185e-44d0-b64b-3d352bfbfae8/d370039e-0d41-4ae7-97ee-dd842cb11b16/image.png)
+    
+    ![image.png](https://prod-files-secure.s3.us-west-2.amazonaws.com/681aabec-185e-44d0-b64b-3d352bfbfae8/fce8a3ec-3bc4-41cb-8f73-dbe584403469/image.png)
+    
+    ![image.png](https://prod-files-secure.s3.us-west-2.amazonaws.com/681aabec-185e-44d0-b64b-3d352bfbfae8/9dd2c944-7cd0-4b7a-8400-078738e47362/image.png)
+    
+    ![image.png](https://prod-files-secure.s3.us-west-2.amazonaws.com/681aabec-185e-44d0-b64b-3d352bfbfae8/6b1f098b-e6ab-4152-926c-6d44086f916e/image.png)
+    
+    - 현재 보고있는 페이지 설정 (리액트 페이지네이션은 0부터 시작하기 때문에 -1을 꼭 넣어주기!)
+        
+        ![image.png](https://prod-files-secure.s3.us-west-2.amazonaws.com/681aabec-185e-44d0-b64b-3d352bfbfae8/174220fe-9fff-44c8-8937-60104db01136/image.png)
+        
+    
+- 페이지네이션 클릭 시 page 바꾸기
+    
+    ![image.png](https://prod-files-secure.s3.us-west-2.amazonaws.com/681aabec-185e-44d0-b64b-3d352bfbfae8/0a7b2e8b-acdb-483d-bdd1-812ee4f94b3e/image.png)
+    
+    ![image.png](https://prod-files-secure.s3.us-west-2.amazonaws.com/681aabec-185e-44d0-b64b-3d352bfbfae8/fd15d137-2774-4d83-a834-fcbf34e732a9/image.png)
+    
+- page값이 바뀔 때마다 useSearchMovie에 page까지 넣어서 fetch
