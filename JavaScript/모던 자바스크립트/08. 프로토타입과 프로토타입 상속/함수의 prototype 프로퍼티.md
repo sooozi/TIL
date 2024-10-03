@@ -93,7 +93,3 @@ Rabbit.prototype = { constructor: Rabbit };
     
 
 ---
-
-![image.png](https://prod-files-secure.s3.us-west-2.amazonaws.com/681aabec-185e-44d0-b64b-3d352bfbfae8/8961ae24-3615-407b-9b61-d105ef01fcf9/image.png)
-
-![image.png](https://prod-files-secure.s3.us-west-2.amazonaws.com/681aabec-185e-44d0-b64b-3d352bfbfae8/7f08dec8-7dfa-48dd-8bc2-e1b61a5e2f5e/image.png)
